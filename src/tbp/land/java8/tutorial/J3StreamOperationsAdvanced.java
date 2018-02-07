@@ -54,7 +54,7 @@ public class J3StreamOperationsAdvanced {
 //    streamsAreLazySimpleFilter();
 //    streamsAreLazyOrderingCounts();
 //    CANNOTReuseStreams();
-    collectors();
+//    collectors();
 //    flatMap();
 //    reduce();
   }

@@ -190,7 +190,6 @@ public class J1Lambda {
    *
    * In order to make functional interfaces easier to be distinguished, they are annotated with @FunctionalInterface
    *
-   * todo @ presentation: make a new interface with a class that uses it to better describe this!
    */
   private void functionalInterface1TheBeginnings() {
     // this is the normal way to instantiate something which belongs to an interface

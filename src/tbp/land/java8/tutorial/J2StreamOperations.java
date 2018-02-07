@@ -22,7 +22,27 @@ public class J2StreamOperations {
     new J2StreamOperations().run();
   }
 
-  private static void parallelStreamSpeed() {
+  /**
+   * Streams represent sequences of elements.
+   * Note that there is no link between the streams presented here and other File or Binary Streams.
+   *
+   * Operations can be done on streams: intermediate operations or terminal operations.
+   *
+   * Streams can be sequential or parallel.
+   */
+  private void run() {
+//    streamConsumer();
+//    filter();
+//    sorted();
+//    map();
+//    collectors();
+//    match();
+//    count();
+//    parallelStreamSpeed();
+//    streamsForMaps();
+  }
+
+  private void parallelStreamSpeed() {
     int elementNo = 10_000_000;
     List<String> values = new ArrayList<>(elementNo);
 
@@ -49,26 +69,6 @@ public class J2StreamOperations {
     long ss2 = TimeUnit.NANOSECONDS.toMillis(ss1 - ss0);
     System.out.println(String.format("sequential sort took: %d ms (%s)", ss2, Duration.of(ss2, ChronoUnit.MILLIS)));
 
-  }
-
-  /**
-   * Streams represent sequences of elements.
-   * Note that there is no link between the streams presented here and other File or Binary Streams.
-   *
-   * Operations can be done on streams: intermediate operations or terminal operations.
-   *
-   * Streams can be sequential or parallel.
-   */
-  private void run() {
-//    streamConsumer();
-//    filter();
-//    sorted();
-//    map();
-//    collectors();
-//    match();
-//    count();
-//    parallelStreamSpeed();
-//    streamsForMaps();
   }
 
   /**
