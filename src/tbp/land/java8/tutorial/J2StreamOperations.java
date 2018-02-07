@@ -8,25 +8,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class J2StreamOperations {
-
-  Collector<Object, StringJoiner, String> printListCollector = //
-    Collector.of(() -> new StringJoiner(", ", "[", "]") //
-      , (it1, it2) -> it1.add(it2.toString()) //
-      , (it1, it2) -> it1.merge(it2) //
-      , it -> {
-        System.out.println(it.toString());
-        return it.toString();
-      }
-    );
 
   List<String> strings = Arrays.asList("d2", "a2", "b1", "a1", "b3", "c6", "b2", "d1");
 
@@ -81,7 +69,6 @@ public class J2StreamOperations {
 //    count();
 //    parallelStreamSpeed();
 //    streamsForMaps();
-
   }
 
   /**
@@ -89,7 +76,7 @@ public class J2StreamOperations {
    *
    * Their Entries do however :^).
    *
-   * Still, cannot have the key and value "destructured", so we are always left to writing
+   * Still, cannot have the key and value "destructured" (unpacked), so we are always left to writing
    *    entry.getKey() and entry.getValue() respectively, instead of (key, value) -> {...}
    */
   private void streamsForMaps() {
@@ -107,11 +94,10 @@ public class J2StreamOperations {
     // this is possible, though
     m.entrySet().stream() //
       .filter((entry) -> {
-//        System.out.printf("filter! key: %s, val: %s %n", entry.getKey(), entry.getValue());
+        System.out.printf("filter! key: %s, val: %s %n", entry.getKey(), entry.getValue());
         return (entry.getValue() % 2) == 0;
       })  //
-//    .forEach(e -> System.out.println(e.getKey() + " " + e.getValue()));
-      .collect(printListCollector);
+      .forEach(e -> System.out.println(e.getKey() + " " + e.getValue()));
 
     // what i would like to have is a "destructuring" Map.Entry such as:
     //    m.entrySet().stream().forEach((key, value) -> System.out.println(key + " " + value));
@@ -162,29 +148,13 @@ public class J2StreamOperations {
     System.out.println("noneStartsWithZ: " + noneStartsWithZ);
   }
 
-  /**
-   * Terminal operation.
-   * Takes all the elements of the stream (sequence) and packs them
-   *    nicely for further use after the stream is closed.
-   */
-  private void collectors() {
-    Collector<String, StringJoiner, String> listOfStringsToConsole = //
-      Collector.of(() -> new StringJoiner(", ", "[", "]") //
-        , (it1, it2) -> it1.add(it2) //
-        , (it1, it2) -> it1.merge(it2) //
-        , it -> {
-          System.out.println(it.toString());
-          return null;
-        }
-      );
-    // hint: use this collector to print some Integers!
-  }
-
   private void map() {
 
-    strings.stream()  //
+    List<Integer> ints = strings.stream()  //
       .map(it -> Integer.parseInt(it.substring(1, 2)))  //
-      .collect(printListCollector);
+      .collect(Collectors.toList());
+
+    System.out.println(ints);
   }
 
   /**
