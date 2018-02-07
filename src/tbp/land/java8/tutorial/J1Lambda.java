@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -34,7 +35,26 @@ public class J1Lambda {
 //    predicate();
 //    functions();
 //    suppliers();
+//    consumers();
 //    optionals();
+  }
+
+  /**
+   * Consumers accept a single argument and do some operation with it but don't return anything.
+   * They operate via side-effects.
+   */
+  private void consumers() {
+    Consumer<Integer> dividerBy2 = new Consumer<Integer>() {
+      @Override
+      public void accept(Integer i) {
+        System.out.printf("divide by 2: original=%d, divided=%d%n", i, i / 2);
+      }
+    };
+
+    Consumer<Integer> dividerBy3Functional = (it) -> System.out.printf("divide by 3: original=%d, divided=%d%n", it, it / 3);
+
+    dividerBy2.accept(666);
+    dividerBy3Functional.andThen(dividerBy2).accept(666);
   }
 
   /**
