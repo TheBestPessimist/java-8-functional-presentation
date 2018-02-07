@@ -7,13 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.StringJoiner;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import tbp.derp.DURR;
 import tbp.land.java8.tutorial.auxiliar.entities.RandomImplementation;
 import tbp.land.java8.tutorial.auxiliar.entities.someRandomInterface;
+import tbp.land.random.DURR;
 
 @SuppressWarnings("ALL")
 public class J1Lambda {
@@ -31,24 +33,64 @@ public class J1Lambda {
 //    functionalInterface2WhatAmIDoingHere();
 //    predicate();
 //    functions();
-    suppliers();
+//    suppliers();
+//    optionals();
+  }
+
+  /**
+   * An alternative to returning nulls.
+   */
+  private void optionals() {
+    try {
+      Optional<RandomImplementation> randomOptional = Optional.ofNullable(null);
+
+      System.out.println(randomOptional.isPresent());
+      System.out.println(randomOptional.get());
+      System.out.println(randomOptional.orElseThrow(() -> new Exception("there is NO class here")));
+
+      randomOptional = Optional.of(new RandomImplementation());
+      System.out.println(randomOptional.isPresent());
+      System.out.println(randomOptional.get());
+      System.out.println(randomOptional.orElseThrow(() -> new Exception("there is A class here")));
+
+    } catch (Exception e) {
+      System.out.println("in the exception: " + e.getMessage());
+      e.printStackTrace();
+    }
   }
 
   /**
    * Produce a new object of a specified type
    */
   private void suppliers() {
-    Supplier<DURR> dietatietor = new Supplier<DURR>() {
+    // simple constructor
+    Supplier<DURR> durrtatietor = new Supplier<DURR>() {
       @Override
       public DURR get() {
         return new DURR();
       }
     };
 
-    Supplier<DURR> dietatietorFunctional = DURR::new;
+    Supplier<DURR> durrtatietorFunctional = DURR::new;
 
+    System.out.println(durrtatietor.get());
+    System.out.println(durrtatietorFunctional.get());
 
+    // constructor with parameters
+    Supplier<StringJoiner> joinerSupplier = new Supplier<StringJoiner>() {
+      @Override
+      public StringJoiner get() {
+        return new StringJoiner(",", "[", "]");
+      }
+    };
 
+    Supplier<StringJoiner> joinerSupplierFunctional = () -> {
+      return new StringJoiner(",", "[", "]");
+    };
+
+    System.out.println(joinerSupplier.get());
+    StringJoiner sjf = joinerSupplierFunctional.get();
+    System.out.println(sjf);
   }
 
   /**
