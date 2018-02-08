@@ -1,6 +1,6 @@
 # java 8 stream and functional interfaces
 
-Presentation for javaschool students and other test subjects.
+Presented to javaschool students and other test subjects.
 
 This repository resides both on
  [github](https://github.com/TheBestPessimist/java-8-functional-presentation) and on 
@@ -15,4 +15,4 @@ really should read and implement as well.
 The presentation should be followed by reading the java classes in `tbp.land.java8.tutorial`
  in the order `J1`, `J2`, `J3`, etc. and by running each method in `run()` in the specific order. 
 
-_Enjoy_ :^)
+_Enjoy_ :^^^)
