@@ -1,6 +1,6 @@
 # java 8 stream and functional interfaces
 
-Presentation for javaschool students.
+Presentation for javaschool students and other test subjects.
 
 This repository resides both on
  [github](https://github.com/TheBestPessimist/java-8-functional-presentation) and on 
