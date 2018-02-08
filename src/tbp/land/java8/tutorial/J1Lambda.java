@@ -18,7 +18,7 @@ import tbp.land.java8.tutorial.auxiliar.entities.RandomImplementation;
 import tbp.land.java8.tutorial.auxiliar.entities.someRandomInterface;
 import tbp.land.random.DURR;
 
-@SuppressWarnings("ALL")
+//@SuppressWarnings("ALL")
 public class J1Lambda {
 
   private List<String> names = Arrays.asList("peter", "anna", "mike", "xenia");
@@ -29,6 +29,7 @@ public class J1Lambda {
 
   private void run() {
 //    comparatorDecreasingly();
+//    runnable();
 //    lambdaScoping();
 //    functionalInterface1TheBeginnings();
 //    functionalInterface2WhatAmIDoingHere();
@@ -42,8 +43,12 @@ public class J1Lambda {
   /**
    * Consumers accept a single argument and do some operation with it but don't return anything.
    * They operate via side-effects.
+   *
+   * Please notice how functional composition works!
    */
   private void consumers() {
+    //
+    // expanded version
     Consumer<Integer> dividerBy2 = new Consumer<Integer>() {
       @Override
       public void accept(Integer i) {
@@ -51,6 +56,8 @@ public class J1Lambda {
       }
     };
 
+    //
+    // functional version
     Consumer<Integer> dividerBy3Functional = (it) -> System.out.printf("divide by 3: original=%d, divided=%d%n", it, it / 3);
 
     dividerBy2.accept(666);
@@ -62,16 +69,29 @@ public class J1Lambda {
    */
   private void optionals() {
     try {
+      //
+      //
+      Optional<RandomImplementation> randomImpl =Optional.empty();
+
+      System.out.println(randomImpl.isPresent());
+      System.out.println(randomImpl.get());
+      System.out.println(randomImpl.orElseThrow(() -> new Exception("there is NO class here")));
+
+
+      //
+      //
       Optional<RandomImplementation> randomOptional = Optional.ofNullable(null);
 
       System.out.println(randomOptional.isPresent());
       System.out.println(randomOptional.get());
       System.out.println(randomOptional.orElseThrow(() -> new Exception("there is NO class here")));
 
-      randomOptional = Optional.of(new RandomImplementation());
-      System.out.println(randomOptional.isPresent());
-      System.out.println(randomOptional.get());
-      System.out.println(randomOptional.orElseThrow(() -> new Exception("there is A class here")));
+      //
+      //
+      Optional<RandomImplementation> optionalExists = Optional.of(new RandomImplementation());
+      System.out.println(optionalExists.isPresent());
+      System.out.println(optionalExists.get());
+      System.out.println(optionalExists.orElseThrow(() -> new Exception("there is A class here")));
 
     } catch (Exception e) {
       System.out.println("in the exception: " + e.getMessage());
@@ -84,19 +104,27 @@ public class J1Lambda {
    */
   private void suppliers() {
     // simple constructor
-    Supplier<DURR> durrtatietor = new Supplier<DURR>() {
+
+    //
+    // expanded version
+    Supplier<DURR> detatietor = new Supplier<DURR>() {
       @Override
       public DURR get() {
         return new DURR();
       }
     };
 
-    Supplier<DURR> durrtatietorFunctional = DURR::new;
+    //
+    // functional version
+    Supplier<DURR> detatietorFunctional = DURR::new;
 
-    System.out.println(durrtatietor.get());
-    System.out.println(durrtatietorFunctional.get());
+    System.out.println(detatietor.get());
+    System.out.println(detatietorFunctional.get());
 
+    //
     // constructor with parameters
+    //
+    // expanded version
     Supplier<StringJoiner> joinerSupplier = new Supplier<StringJoiner>() {
       @Override
       public StringJoiner get() {
@@ -104,12 +132,14 @@ public class J1Lambda {
       }
     };
 
+    //
+    // functional version
     Supplier<StringJoiner> joinerSupplierFunctional = () -> {
       return new StringJoiner(",", "[", "]");
     };
 
     System.out.println(joinerSupplier.get());
-    StringJoiner sjf = joinerSupplierFunctional.get();
+    StringJoiner sjf = joinerSupplierFunctional.get();    // the supplier returns a StringJoiner
     System.out.println(sjf);
   }
 
@@ -121,6 +151,8 @@ public class J1Lambda {
     nameAndAge.put("cristi", 18);
     nameAndAge.put("gigi", 29);
 
+    //
+    // expanded version
     Function<Map, String> mapToString = new Function<Map, String>() {
       @Override
       public String apply(Map it) {
@@ -134,6 +166,8 @@ public class J1Lambda {
       }
     };
 
+    //
+    // functional version
     Function<Map, String> mapToStringFunctional = (it) -> {
       StringBuilder sb = new StringBuilder();
 
@@ -216,10 +250,12 @@ public class J1Lambda {
     final int finalInt = 1;
     names.forEach(it -> System.out.println(String.valueOf(it + finalInt)));
 
+    //
     // practically final
     int practicallyFinalInt = 1;
     names.forEach(it -> System.out.println(String.valueOf(it + practicallyFinalInt)));
 
+    //
     // not final throws compiler error
     int notFinalInt = 1;
     names.forEach(it -> System.out.println(String.valueOf(it + notFinalInt)));
@@ -229,11 +265,42 @@ public class J1Lambda {
   }
 
   /**
+   * How a runnable was created pre-java8, and how it can be done by using functional style
+   */
+  private void runnable() {
+    // old method (pre-java8)
+    Runnable someRunnable = new Runnable() {
+      @Override
+      public void run() {
+        System.out.println("java 7 runnable");
+      }
+    };
+    new Thread(someRunnable).start();
+
+    //
+    // java8 but still long
+    Runnable someRunnableFunctional = () -> {
+      System.out.printf("java 8 runnable%n");
+    };
+    new Thread(someRunnableFunctional).start();
+
+    //
+    // java8 shorter
+    new Thread(() -> {
+      System.out.printf("java 8 runnable no runnable object%n");
+    }).start();
+
+    //
+    // java8 shortest
+    new Thread(() -> System.out.println("java 8 runnable without braces")).start();
+
+  }
+
+  /**
    * How a comparator was used/created before java 8
    * Also: how lambdas should be "interpreted"/understood
    */
   private void comparatorDecreasingly() {
-
     // old method (pre-java8)
     Collections.sort(names, new Comparator<String>() {
       @Override
@@ -242,17 +309,21 @@ public class J1Lambda {
       }
     });
 
+    //
     // java8 but still long
     Collections.sort(names, (String a, String b) -> {
       return b.compareTo(a);
     });
 
+    //
     // java8 shorter
     Collections.sort(names, (String a, String b) -> b.compareTo(a));
 
+    //
     // java8 shortest
     Collections.sort(names, (a, b) -> b.compareTo(a));
 
+    //
     // java 8 already implemented functionality
     Collections.sort(names, Comparator.reverseOrder());
   }
