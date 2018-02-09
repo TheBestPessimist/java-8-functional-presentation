@@ -18,7 +18,7 @@ import tbp.land.java8.tutorial.auxiliar.entities.RandomImplementation;
 import tbp.land.java8.tutorial.auxiliar.entities.someRandomInterface;
 import tbp.land.random.DURR;
 
-//@SuppressWarnings("ALL")
+@SuppressWarnings("ALL")
 public class J1Lambda {
 
   private List<String> names = Arrays.asList("peter", "anna", "mike", "xenia");
@@ -140,6 +140,8 @@ public class J1Lambda {
 
     System.out.println(joinerSupplier.get());
     StringJoiner sjf = joinerSupplierFunctional.get();    // the supplier returns a StringJoiner
+    sjf.add(names.get(0));
+    sjf.add(names.get(1));
     System.out.println(sjf);
   }
 
@@ -168,7 +170,7 @@ public class J1Lambda {
 
     //
     // functional version
-    Function<Map, String> mapToStringFunctional = (it) -> {
+    Function<Map, String> mapToStringFunctional = (Map it) -> {
       StringBuilder sb = new StringBuilder();
 
       for (Map.Entry<String, Integer> aa : ((Map<String, Integer>) it).entrySet()) {
@@ -248,16 +250,16 @@ public class J1Lambda {
   private void lambdaScoping() {
     // final
     final int finalInt = 1;
-    names.forEach(it -> System.out.println(String.valueOf(it + finalInt)));
+    names.forEach((String it) -> System.out.println(String.valueOf(it + finalInt)));
 
     //
     // practically final
-    int practicallyFinalInt = 1;
+    int practicallyFinalInt = 2;
     names.forEach(it -> System.out.println(String.valueOf(it + practicallyFinalInt)));
 
     //
     // not final throws compiler error
-    int notFinalInt = 1;
+    int notFinalInt = 3;
     names.forEach(it -> System.out.println(String.valueOf(it + notFinalInt)));
 //    notFinalInt++;
 

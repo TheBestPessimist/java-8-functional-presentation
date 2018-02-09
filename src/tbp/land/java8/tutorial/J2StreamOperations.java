@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -35,7 +36,6 @@ public class J2StreamOperations {
 //    filter();
 //    sorted();
 //    map();
-//    collectors();
 //    match();
 //    count();
 //    parallelStreamSpeed();
@@ -93,7 +93,7 @@ public class J2StreamOperations {
 
     // this is possible, though
     m.entrySet().stream() //
-      .filter((entry) -> {
+      .filter((Map.Entry<String, Integer> entry) -> {
         System.out.printf("filter! key: %s, val: %s %n", entry.getKey(), entry.getValue());
         return (entry.getValue() % 2) == 0;
       })  //
@@ -127,22 +127,20 @@ public class J2StreamOperations {
    */
   private void match() {
     boolean anyStartsWithA =
-      strings
-        .stream()
+      strings.stream()
         .anyMatch((s) -> s.startsWith("a"));
 
     System.out.println("anyStartsWithA: " + anyStartsWithA);
 
     boolean allStartsWithA =
-      strings
-        .stream()
+      strings.stream()
+        .filter(Objects::nonNull)
         .allMatch((s) -> s.startsWith("a"));
 
     System.out.println("allStartsWithA: " + allStartsWithA);
 
     boolean noneStartsWithZ =
-      strings
-        .stream()
+      strings.stream()
         .noneMatch((s) -> s.startsWith("z"));
 
     System.out.println("noneStartsWithZ: " + noneStartsWithZ);
@@ -151,7 +149,7 @@ public class J2StreamOperations {
   private void map() {
 
     List<Integer> ints = strings.stream()  //
-      .map(it -> Integer.parseInt(it.substring(1, 2)))  //
+      .map((String it) -> Integer.parseInt(it.substring(1, 2)))  //
       .collect(Collectors.toList());
 
     System.out.println(ints);

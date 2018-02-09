@@ -70,7 +70,7 @@ public class J3StreamOperationsAdvanced {
     //
     //
     Integer sumOfAges = persons.stream() //
-      .reduce(0, (accumulator, it) -> accumulator += it.getAge(), (it1, it2) -> it1 + it2);
+      .reduce(0, (Integer accumulator, Person it) -> accumulator += it.getAge(), (it1, it2) -> it1 + it2);
     System.out.println(sumOfAges == theSum);
 
     //
